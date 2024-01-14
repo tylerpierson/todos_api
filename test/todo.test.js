@@ -21,24 +21,41 @@ afterAll(async () => {
 })
 
 describe('Test suite for the /todos routes on our api', () => {
-    // CREATE test/todos
-    test('It should create a new todo in the db', async () => {
-        const response = await request(app).post('/todos').send({ title: 'Test Todo', description: 'Testing the Todo API', completed: 'on' })
-
-        expect(response.statusCode).toBe(200)
-        expect(response.body.title).toEqual('Test Todo')
-        expect(response.body.description).toEqual('Testing the Todo API')
-        expect(response.body.completed).toEqual(true)
-    })
-
-    // INDEX test/todos
+    // INDEX test
     test('It should get all todos from the db', async () => {
         const response = await request(app).get('/todos')
 
         expect(response.statusCode).toBe(200)
     })
 
-    // CREATE test/todos
+    // DELETE test
+    test('It should delete a todo', async () => {
+        const todo = new Todo({ title: 'Test Todo', description: 'Testing the Todo API', completed: true })
+        await todo.save()
+    
+        const response = await request(app)
+          .delete(`/todos/${todo._id}`)
+        
+        expect(response.statusCode).toBe(200)
+        expect(response.body.message).toEqual('Todo deleted successfully')
+    })
+
+    // UPDATE test
+    test('It should update a todo', async () => {
+        const todo = new Todo({ title: 'Test Todo', description: 'Testing the Todo API', completed: true })
+        await todo.save()
+    
+        const response = await request(app)
+          .put(`/todos/${todo._id}`)
+          .send({ title: 'Update to the Todo', description: 'Updating the Todo API', completed: false })
+        
+        expect(response.statusCode).toBe(200)
+        expect(response.body.title).toEqual('Update to the Todo')
+        expect(response.body.description).toEqual('Updating the Todo API')
+        expect(response.body.completed).toEqual(false)
+      })
+
+    // CREATE test
     test('It should create a new todo in the db', async () => {
         const response = await request(app).post('/todos').send({ title: 'Test Todo', description: 'Testing the Todo API', completed: 'on' })
 
@@ -46,5 +63,19 @@ describe('Test suite for the /todos routes on our api', () => {
         expect(response.body.title).toEqual('Test Todo')
         expect(response.body.description).toEqual('Testing the Todo API')
         expect(response.body.completed).toEqual(true)
+    })
+
+    // SHOW test
+    test('It should get a specific todo from the db', async () => {
+        const todo = new Todo({ title: 'Test Todo', description: 'Testing the Todo API', completed: true })
+        await todo.save()
+
+        const response = await request(app).get(`/todos/${todo._id}`)
+
+        expect(response.statusCode).toBe(200)
+        expect(response.body._id).toEqual(todo._id.toString())
+        expect(response.body.title).toEqual(todo.title)
+        expect(response.body.description).toEqual(todo.description)
+        expect(response.body.completed).toEqual(todo.completed)
     })
   })
