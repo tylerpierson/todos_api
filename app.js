@@ -1,6 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
-const userRoutes = require('./routes/todoRoutes')
+const todoRoutes = require('./routes/todoRoutes')
 const app = express()
 
 app.use(express.json())
