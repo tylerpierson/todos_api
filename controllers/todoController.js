@@ -1,16 +1,12 @@
 const Todo = require('../models/Todo')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 
 // Index
 exports.indexTodo = async (req, res) => {
     try {
         const foundTodos = await Todo.find({})
-        res.render('todos/Index', {
-            todos: foundTodos
-        })
+        res.status(200).json({ todos: foundTodos })
     } catch (error) {
-        res.status(400).send({ message: error.message })
+        res.status(400).json({ message: error.message })
     }
 }
 
@@ -18,45 +14,41 @@ exports.indexTodo = async (req, res) => {
 exports.deleteTodo = async (req, res) => {
     try {
         await Todo.findOneAndDelete({ '_id': req.params.id })
-            .then(() => {
-                res.redirect('/todos')
-            })
+        res.status(200).json({ message: 'Todo deleted successfully' })
     } catch (error) {
-        res.status(400).send({ message: error.message })
+        res.status(400).json({ message: error.message })
     }
 }
 
 // Update
 exports.updateTodo = async (req, res) => {
-    if(req.body.completed === 'on'){
+    if (req.body.completed === 'on') {
         req.body.completed = true
-    }else{
+    } else {
         req.body.completed = false
     }
+
     try {
-        await Todo.findOneAndUpdate({ '_id': req.params.id }, 
-            req.body, { new: true })
-            .then(() => {
-                res.redirect(`/todos/${req.params.id}`)
-            })
+        const updatedTodo = await Todo.findOneAndUpdate({ '_id': req.params.id }, req.body, { new: true })
+        res.status(200).json(updatedTodo)
     } catch (error) {
-        res.status(400).send({ message: error.message })
+        res.status(400).json({ message: error.message })
     }
 }
 
 // Create
 exports.createTodo = async (req, res) => {
-    if(req.body.completed === 'on'){
+    if (req.body.completed === 'on') {
         req.body.completed = true
-    }else{
+    } else {
         req.body.completed = false
     }
-    try{
-        const createdTodo = await Todo.create(req.body)
-        // res.send('received')
-        res.redirect(`/todos/${createdTodo._id}`)
-    }catch(error){
-        res.status(400).send({message: error.message})
+
+    try {
+        const todo = await Todo.create(req.body)
+        res.status(200).json(todo)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
     }
 }
 
@@ -64,10 +56,8 @@ exports.createTodo = async (req, res) => {
 exports.getTodo = async (req, res) => {
     try {
         const foundTodo = await Todo.findOne({ _id: req.params.id })
-        res.render('todos/Show', {
-            todo: foundTodo
-        })
+        res.status(200).json(foundTodo)
     } catch (error) {
-        res.status(400).send({ message: error.message })
+        res.status(400).json({ message: error.message })
     }
 }
