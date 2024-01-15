@@ -4,10 +4,18 @@ const Todo = require('../models/Todo')
 exports.indexTodo = async (req, res) => {
     try {
         const foundTodos = await Todo.find({})
-        res.status(200).json({ todos: foundTodos })
+        
+        res.render('todos/Index', {
+            todos: foundTodos
+        })
     } catch (error) {
         res.status(400).json({ message: error.message })
     }
+}
+
+// New
+exports.newTodo = (req, res) => {
+    res.render('todos/New')
 }
 
 // Destroy

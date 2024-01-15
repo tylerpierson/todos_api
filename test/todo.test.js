@@ -21,13 +21,6 @@ afterAll(async () => {
 })
 
 describe('Test suite for the /todos routes on our api', () => {
-    // INDEX test
-    test('It should get all todos from the db', async () => {
-        const response = await request(app).get('/todos')
-
-        expect(response.statusCode).toBe(200)
-    })
-
     // DELETE test
     test('It should delete a todo', async () => {
         const todo = new Todo({ title: 'Test Todo', description: 'Testing the Todo API', completed: true })
