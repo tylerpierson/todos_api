@@ -1,12 +1,11 @@
+// Create the express app object and add my middleware
 const express = require('express')
-const morgan = require('morgan')
-const todoRoutes = require('./routes/todoRoutes')
 const app = express()
+const todoRouter = require('./routes/todoRouter')
 
-app.use(express.static("public"))
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-app.use(morgan('combined'))
-app.use('/todos', todoRoutes)
+// Middleware
+app.use(express.json()) // bodyParser middleware for json APIs
+app.use(express.urlencoded({ extended: true })) // bodyParser middleware for SSR (Server Side Rendering) Apps
+app.use('/todos', todoRouter)
 
 module.exports = app
