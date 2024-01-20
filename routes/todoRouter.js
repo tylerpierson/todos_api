@@ -3,18 +3,23 @@ const router = express.Router()
 const todoController = require('../controllers/todoController')
 
 // Index
-router.get('/', todoController.index)
+    // Postman - SUCCESS
+router.get('/', todoController.index) // Run index fourth
 
 // Create
-router.post('/', todoController.create)
+    // Postman - SUCCESS
+router.post('/', todoController.create) // Have to run create first in the test in order to do anything else
 
 // Update
-router.put('/:id', todoController.update)
+    // Postman - SUCCESS
+router.put('/:id', todoController.update) // Third run update
 
 // Destroy
-router.delete('/:id', todoController.destroy)
+    // Postman - SUCCESS
+router.delete('/:id', todoController.destroy) // Run delete last
 
 // Show
-router.get('/:id', todoController.show)
+    // Postman - SUCCESS
+router.get('/:id', todoController.show) // Run show second
 
 module.exports = router

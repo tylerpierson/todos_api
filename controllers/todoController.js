@@ -32,7 +32,7 @@ exports.index = async function index (req, res) {
 exports.create = async function create (req, res) {
     // Make a new todo
     try {
-        const todo = await todo.create(req.body)
+        const todo = await Todo.create(req.body)
         res.status(200).json(todo)
     } catch (error) {
         res.status(400).json({ message: error.message })
