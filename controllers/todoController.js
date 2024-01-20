@@ -1,12 +1,30 @@
 const Todo = require('../models/todo')
 
+/*
+Status Codes
+    200 - Good response
+        200 - Okay
+        201 - Created
+        204 - No Content
+    300 - Redirection
+        301 - Redirect
+        302 - Redirect
+    400 - Bad response; User's fault
+        400 - Bad response
+        401 - Unauthorized 
+        403 - Forbidden
+        404 - Not found
+    500 - Bad response; Server's fault
+*/
+
 // Index
 exports.index = async function index (req, res) {
     // Grab all of the todos
     try {
-        
+        const todos = await Todo.find({})
+        res.status(200).json(todos)
     } catch (error) {
-        
+        res.status(400).json({ message: error.message })
     }
 }
 
@@ -14,9 +32,10 @@ exports.index = async function index (req, res) {
 exports.create = async function create (req, res) {
     // Make a new todo
     try {
-        
+        const todo = await todo.create(req.body)
+        res.status(200).json(todo)
     } catch (error) {
-        
+        res.status(400).json({ message: error.message })
     }
 }
 
@@ -26,7 +45,7 @@ exports.update = async function update (req, res) {
     try {
         
     } catch (error) {
-        
+        res.status(400).json({ message: error.message }) 
     }
 }
 
@@ -36,7 +55,7 @@ exports.destroy = async function destroy (req, res) {
     try {
         
     } catch (error) {
-        
+        res.status(400).json({ message: error.message }) 
     }
 }
 
@@ -46,6 +65,6 @@ exports.show = async function show (req, res) {
     try {
         
     } catch (error) {
-        
+        res.status(400).json({ message: error.message })
     }
 }
