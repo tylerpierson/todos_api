@@ -5,9 +5,8 @@ exports.indexTodo = async (req, res) => {
     try {
         const foundTodos = await Todo.find({})
         
-        res.render('todos/Index', {
-            todos: foundTodos
-        })
+        res.status(200).json({ message: 'Todo deleted successfully' })
+
     } catch (error) {
         res.status(400).json({ message: error.message })
     }
