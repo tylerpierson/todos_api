@@ -43,7 +43,8 @@ exports.create = async function create (req, res) {
 exports.update = async function update (req, res) {
     // Update a todo that was already made
     try {
-        
+        const updatedTodo = await Todo.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true } )
+        res.status(200).json(updatedTodo)
     } catch (error) {
         res.status(400).json({ message: error.message }) 
     }
@@ -53,7 +54,9 @@ exports.update = async function update (req, res) {
 exports.destroy = async function destroy (req, res) {
     // Delete an existing todo
     try {
-        
+        const deletedTodo = await Todo.findOneAndDelete({ _id: req.params.id })
+
+        res.status(200).json({ msg: `The todo with the ID of ${deletedTodo._id} was deleted from the MongoDB database. No further action necessary.`})
     } catch (error) {
         res.status(400).json({ message: error.message }) 
     }
