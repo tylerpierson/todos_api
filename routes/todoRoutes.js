@@ -2,11 +2,19 @@ const express = require('express')
 const router = express.Router()
 const todoController = require('../controllers/todoController')
 
+// Index
 router.get('/', todoController.indexTodo)
-router.get('/new', todoController.newTodo)
-router.delete('/:id', todoController.deleteTodo)
-router.put('/:id', todoController.updateTodo)
+
+// Create
 router.post('/', todoController.createTodo)
+
+// Update
+router.put('/:id', todoController.updateTodo)
+
+// Destroy
+router.delete('/:id', todoController.deleteTodo)
+
+// Show
 router.get('/:id', todoController.getTodo)
 
 module.exports = router
